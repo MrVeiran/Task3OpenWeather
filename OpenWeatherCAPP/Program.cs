@@ -71,14 +71,14 @@ namespace OpenWeatherCAPP
             Console.ReadLine();
         }
 
-        private static string CutTheDate(Forecast weatherResponse, int minValueCoor)
+        static string CutTheDate(Forecast weatherResponse, int minValueCoor)
         {
             string str1 = weatherResponse.List[minValueCoor].dt_txt;
             string str2 = str1.Remove(10, 9);
             return str2;
         }
 
-        private static void FillMinMaxList(Forecast weatherResponse, ref List<float> MinT,ref  List<float> MaxT)
+        static void FillMinMaxList(Forecast weatherResponse, ref List<float> MinT,ref  List<float> MaxT)
         {
             for (int i = 0; i < weatherResponse.List.Count; i++)
             {
