@@ -12,11 +12,12 @@ namespace OpenWeatherCAPP
         {
             string URL = "http://api.openweathermap.org/data/2.5/forecast?q=Moscow&cnt=40&units=metric&appid=1b8c15d47aa4079eb8670e8703b97ba4";
             List<WeatherResponse> list = new List<WeatherResponse>();
+            
             HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(URL);
             HttpWebResponse httpWebResponse = (HttpWebResponse)httpWebRequest.GetResponse();
             string response;
-
-
+            int maxDay = 5; //Максимальное давление за предстоящие 5 дней (включая текущий);
+            int cycleStep = 8;//OpenWeather will sent you the statistic every 3 hours. we need one value per day. 24/3 = 8, cycle step = 8 
 
             using (StreamReader streamReader = new StreamReader(httpWebResponse.GetResponseStream()))
             {
@@ -36,7 +37,7 @@ namespace OpenWeatherCAPP
 
 
 
-            for (int i = 0; i < weatherResponse.List.Count; i += 8)
+            for (int i = 0; i < weatherResponse.List.Count; i += cycleStep)
             {
                 if (maxValuePressure <= weatherResponse.List[i].Main.Pressure)
                 {
@@ -50,7 +51,7 @@ namespace OpenWeatherCAPP
             
             minValueTemperature = MaxT[0] - MinT[0];
 
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < maxDay; i++)
             {
                 if (minValueTemperature > (MaxT[i] - MinT[i]))
                 {
@@ -60,7 +61,7 @@ namespace OpenWeatherCAPP
             }
             
 
-            for (int i = 0; i < weatherResponse.List.Count; i += 8)
+            for (int i = 0; i < weatherResponse.List.Count; i += cycleStep)
             {
                 Console.WriteLine($"Temperature in {weatherResponse.City.Name} is {weatherResponse.List[i].Main.Temp} °C and pressure is {weatherResponse.List[i].Main.Pressure}. Date is {weatherResponse.List[i].dt_txt}");
             }

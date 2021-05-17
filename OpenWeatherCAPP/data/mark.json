@@ -1,0 +1,17 @@
+[
+    {
+        "id": 1,
+        "manufacturerID": 1,
+        "name": "camry"
+    },
+    {
+        "id": 2,
+        "manufacturerID": 2,
+        "name": "polo"
+    },
+    {
+        "id": 3,
+        "manufacturerID": 3,
+        "name": "rio"
+    }
+]
